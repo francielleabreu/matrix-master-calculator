@@ -1,117 +1,52 @@
-// This calculator can add, subtract, multiply, and divide numbers.
-// Clear the input field with the AC button.
-// Chaining mathematical operations until hit the equal button, the calculator will present the correct output.
+const screen = document.querySelector(".screen")
+const numbersButtons = document.querySelectorAll(".number")
+const operationButtons = document.querySelectorAll(".operator")
 
-const calculator = {
-    displayValue: "0",
-    firstOperand: null,
-    waitingForSecondOperand: false,
-    operator: null,
-    };
+let numberAlreadyInserted = false
+let firstNumber = 0
+let secondNumber = 0
+let operator = ""
 
-// Selecting Display
-const updateDisplay = () => {
-    const display = document.querySelector(".screen");
-    display.value = calculator.displayValue;
-};
-updateDisplay();
+numbersButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+        const { target } = event;
+        if (numberAlreadyInserted) {
+            screen.value = screen.value + target.value
+        } else {
+            screen.value = target.value
+            numberAlreadyInserted = true
+        }
+    })
+})
 
-const keys = document.querySelector(".keys");
-  keys.addEventListener("click", (event) => {
-    const { target } = event;
-    if (!target.matches("button")) {
-      return;
-     }
-  
-    if (target.classList.contains("operator")) {
-      handleOperator(target.value);
-      updateDisplay();
-      return;
-    }
-  
-    if (target.classList.contains("decimal")) {
-      inputDecimal(target.value);
-      updateDisplay();
-      return;
-    }
-  
-    if (target.classList.contains("all-clear")) {
-      resetCalculator();
-      updateDisplay();
-      return;
-    }
-  
-    inputDigit(target.value);
-    updateDisplay();
-  });
+operationButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+        const { target } = event;
+        firstNumber = screen.value
+        operator = target.value
+        screen.value = ""
+        numberAlreadyInserted = false
+    })
+})
 
-//Inputs
-const inputDigit = (digit) => {
-    const { displayValue, waitingForSecondOperand } = calculator;
-  
-    if (waitingForSecondOperand === true) {
-      calculator.displayValue = digit;
-      calculator.waitingForSecondOperand = false;
-    } else {
-      calculator.displayValue =
-        displayValue === "0" ? digit : displayValue + digit;
-    }
-  };
-
-const inputDecimal = (dot) => {
-    if (calculator.waitingForSecondOperand === true) {
-        calculator.displayValue = "0. ";
-        calculator.waitingForSecondOperand = false;
-        return;
-    }
-
-    if (!calculator.displayValue.includes(dot)) {
-          calculator.displayValue += dot;
-    }
-};
-
-//Handle
-const handleOperator = (nextOperator) => {
-    const { firstOperand, displayValue, operator } = calculator;
-    const inputValue = parseFloat(displayValue)
-
-    if (operator && calculator.waitingForSecondOperand) {
-        calculator.operator = nextOperator;
-        return;
-    }
-    
-    if (firstOperand == null && !isNaN(inputValue)) {
-        calculator.firstOperand = inputValue;
-    } else if (operator) {
-        const result = calculate(firstOperand, inputValue, operator);
-   
-        calculator.displayValue = `${parseFloat(result.toFixed(6))}`;
-        calculator.firstOperand = result;
-    }
-
-      calculator.waitingForSecondOperand = true;
-      calculator.operator = nextOperator;
-};
-
-//Logic
-const calculate = (firstOperand, secondOperand, operator) => {
+document.getElementById("equal-button").addEventListener("click", (event) => {
+    secondNumber = screen.value
     if (operator === "+") {
-      return firstOperand + secondOperand;
-    } else if (operator === "-") {
-      return firstOperand - secondOperand;
-    } else if (operator === "*") {
-      return firstOperand * secondOperand;
-    } else if (operator === "/") {
-      return firstOperand / secondOperand;
+        screen.value = parseInt(firstNumber) + parseInt(secondNumber)
     }
-  
-    return secondOperand;
-};
-  
-//Reset
-const resetCalculator = () => {
-    calculator.displayValue = "0";
-    calculator.firstOperand = null;
-    calculator.waitingForSecondOperand = false;
-    calculator.operator = null;
-};
+    if (operator === "-") {
+        screen.value = parseInt(firstNumber) - parseInt(secondNumber)
+    }
+    if (operator === "*") {
+        screen.value = parseInt(firstNumber) * parseInt(secondNumber)
+    }
+    if (operator === "/") {
+        screen.value = parseInt(firstNumber) / parseInt(secondNumber)
+    }
+})
+
+document.getElementById("all-clear").addEventListener("click", (event) => {
+    numberAlreadyInserted = false
+    screen.value = ""
+})
+

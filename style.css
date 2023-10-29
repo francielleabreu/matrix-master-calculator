@@ -59,13 +59,17 @@ button:active {
     grid-area: 2 / 4/ 6 /5;
 }
 
-.equal-sign:hover { 
+.equal-sign:hover {
     background-color: rgba(78, 159, 212, 0.4);
 }
 
-.keys{
+#all-clear {
+    grid-area: 5 / 2/ 6 /4;
+}
+
+.keys {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);    
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 10px;
     padding: 10px;
 }
