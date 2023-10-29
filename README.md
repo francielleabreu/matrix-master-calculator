@@ -3,10 +3,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Calculator</title>
 </head>
 <body>
-    <h1>Simple Calculator</h1>
+    <h1>Matrix-Master Simple Calculator</h1>
     <p>This is a simple calculator project developed using HTML, CSS, and JavaScript. The calculator performs basic arithmetic operations, including addition, subtraction, multiplication, and division. It also provides an "AC" (All Clear) button to clear the screen. Note that decimal/floating-point functionality has not been implemented in this version.</p>
     <h2>Try the Calculator</h2>
     <p>Test the calculator here: <a href="https://francielleabreu.github.io/matrix-master-calculator/">Matrix Master Calculator</a></p>
